@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RECOMP — Strength &amp; Body Recomposition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --black:#0E0E10;
+    --black-soft:#16161A;
+    --chalk:#F5F3EE;
+    --chalk-dim:#C9C7C0;
+    --lime:#D6FF3F;
+    --iron:#C4401F;
+    --gray:#8A8A85;
+    --line: rgba(245,243,238,0.12);
+
+    --display: 'Archivo Black', 'Arial Black', sans-serif;
+    --body: 'Inter', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--black);
+    color:var(--chalk);
+    font-family:var(--body);
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+
+  /* ===== focus ===== */
+  a:focus-visible, button:focus-visible{
+    outline:3px solid var(--lime);
+    outline-offset:3px;
+  }
+
+  /* ===== utility ===== */
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--lime);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:6px;height:6px;
+    background:var(--lime);
+    border-radius:50%;
+    flex:none;
+  }
+
+  /* ===== top tracker bar (signature element) ===== */
+  .tracker{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:var(--black);
+    border-bottom:1px solid var(--line);
+  }
+  .tracker-rail{
+    height:4px;
+    width:100%;
+    background:var(--black-soft);
+    position:relative;
+  }
+  .tracker-fill{
+    height:100%;
+    width:0%;
+    background:var(--lime);
+    transition:width 0.1s linear;
+  }
+  .tracker-nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 32px;
+    max-width:1180px;
+    margin:0 auto;
+  }
+  .tracker-logo{
+    font-family:var(--display);
+    font-size:20px;
+    letter-spacing:-0.02em;
+  }
+  .tracker-logo span{color:var(--lime);}
+  .tracker-plates{
+    display:flex;
+    gap:6px;
+    align-items:center;
+  }
+  .plate{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--gray);
+    padding:6px 12px;
+    border:1px solid var(--line);
+    border-radius:100px;
+    transition:color 0.25s, border-color 0.25s;
+  }
+  .plate.active{
+    color:var(--black);
+    background:var(--lime);
+    border-color:var(--lime);
+    font-weight:700;
+  }
+  .tracker-links{display:flex;gap:28px;}
+  .tracker-links a{
+    font-size:14px;
+    font-weight:600;
+    color:var(--chalk-dim);
+    transition:color 0.2s;
+  }
+  .tracker-links a:hover{color:var(--lime);}
+
+  @media (max-width:860px){
+    .tracker-links{display:none;}
+  }
+
+  /* ===== hero ===== */
+  .hero{
+    padding:100px 0 90px;
+    position:relative;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:56px;
+    align-items:center;
+  }
+  .hero h1{
+    font-family:var(--display);
+    font-size:clamp(48px, 7vw, 92px);
+    line-height:0.96;
+    letter-spacing:-0.01em;
+    margin:18px 0 24px;
+    text-transform:uppercase;
+  }
+  .hero h1 .accent{color:var(--lime);}
+  .hero p.lede{
+    font-size:18px;
+    color:var(--chalk-dim);
+    max-width:480px;
+    margin-bottom:36px;
+  }
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    padding:16px 28px;
+    border-radius:2px;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    transition:transform 0.2s, background 0.2s, color 0.2s;
+    cursor:pointer;
+    border:1px solid transparent;
+  }
+  .btn-primary{
+    background:var(--lime);
+    color:var(--black);
+  }
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-ghost{
+    border-color:var(--line);
+    color:var(--chalk);
+  }
+  .btn-ghost:hover{border-color:var(--lime); color:var(--lime);}
+
+  .hero-readout{
+    background:var(--black-soft);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:28px;
+  }
+  .readout-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    padding:14px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .readout-row:last-child{border-bottom:none;}
+  .readout-label{
+    font-size:13px;
+    color:var(--gray);
+  }
+  .readout-value{
+    font-family:var(--mono);
+    font-size:20px;
+    font-weight:700;
+    color:var(--chalk);
+  }
+  .readout-value.lime{color:var(--lime);}
+  .readout-value.iron{color:var(--iron);}
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;}
+  }
+
+  /* ===== section shared ===== */
+  section{padding:110px 0;border-top:1px solid var(--line);}
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:24px;
+    margin-bottom:56px;
+    flex-wrap:wrap;
+  }
+  .section-head h2{
+    font-family:var(--display);
+    font-size:clamp(32px,4.2vw,52px);
+    text-transform:uppercase;
+    line-height:1.02;
+    margin-top:14px;
+  }
+  .section-head .desc{
+    max-width:320px;
+    color:var(--chalk-dim);
+    font-size:15px;
+  }
+
+  /* ===== nutrition section ===== */
+  .meal-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .meal-card{
+    background:var(--black);
+    padding:32px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    transition:background 0.25s;
+  }
+  .meal-card:hover{background:var(--black-soft);}
+  .meal-tag{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--iron);
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+  .meal-card h3{
+    font-size:21px;
+    font-weight:800;
+    line-height:1.2;
+  }
+  .meal-macro-row{
+    display:flex;
+    gap:16px;
+    margin-top:auto;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+  }
+  .macro{
+    font-family:var(--mono);
+  }
+  .macro .num{
+    font-size:22px;
+    font-weight:700;
+    color:var(--lime);
+    display:block;
+  }
+  .macro .unit{
+    font-size:11px;
+    color:var(--gray);
+  }
+  .meal-card p{
+    color:var(--chalk-dim);
+    font-size:14px;
+  }
+
+  @media (max-width:860px){
+    .meal-grid{grid-template-columns:1fr;}
+  }
+
+  /* ===== isolate section ===== */
+  .isolate-section{
+    background:var(--black-soft);
+  }
+  .isolate-grid{
+    display:grid;
+    grid-template-columns:0.9fr 1.1fr;
+    gap:60px;
+    align-items:start;
+  }
+  .compare-table{
+    width:100%;
+    border-collapse:collapse;
+  }
+  .compare-table th, .compare-table td{
+    text-align:left;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+    font-size:14.5px;
+  }
+  .compare-table th{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--gray);
+    font-weight:500;
+  }
+  .compare-table td.iso{color:var(--lime); font-weight:700; font-family:var(--mono);}
+  .compare-table td.con{color:var(--chalk-dim); font-family:var(--mono);}
+  .compare-table tr td:first-child{color:var(--chalk); font-weight:600;}
+
+  .isolate-copy h3{
+    font-family:var(--display);
+    font-size:28px;
+    text-transform:uppercase;
+    margin-bottom:18px;
+    line-height:1.15;
+  }
+  .isolate-copy p{
+    color:var(--chalk-dim);
+    margin-bottom:18px;
+    font-size:15.5px;
+  }
+  .isolate-copy p strong{color:var(--chalk);}
+
+  /* ===== split section ===== */
+  .split-tabs{
+    display:flex;
+    gap:10px;
+    margin-bottom:40px;
+    flex-wrap:wrap;
+  }
+  .split-tab{
+    font-family:var(--mono);
+    font-size:12.5px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    padding:12px 20px;
+    border:1px solid var(--line);
+    border-radius:100px;
+    cursor:pointer;
+    background:transparent;
+    color:var(--chalk-dim);
+    transition:all 0.2s;
+  }
+  .split-tab.active{
+    background:var(--lime);
+    color:var(--black);
+    border-color:var(--lime);
+  }
+  .split-panel{display:none;}
+  .split-panel.active{display:grid;}
+  .split-panel{
+    grid-template-columns:repeat(auto-fit, minmax(150px,1fr));
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .day-card{
+    background:var(--black);
+    padding:24px 20px;
+    min-height:150px;
+  }
+  .day-card .d{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--iron);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin-bottom:10px;
+    display:block;
+  }
+  .day-card .focus{
+    font-weight:800;
+    font-size:16.5px;
+    line-height:1.25;
+  }
+  .day-card.rest .focus{color:var(--gray);}
+
+  .split-note{
+    margin-top:28px;
+    color:var(--chalk-dim);
+    font-size:14.5px;
+    max-width:640px;
+  }
+
+  /* ===== footer ===== */
+  footer{
+    padding:60px 0 50px;
+    border-top:1px solid var(--line);
+  }
+  .footer-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:20px;
+  }
+  .footer-logo{
+    font-family:var(--display);
+    font-size:18px;
+    text-transform:uppercase;
+  }
+  .footer-logo span{color:var(--lime);}
+  footer p{
+    color:var(--gray);
+    font-size:13px;
+  }
+
+  .fade-up{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.in{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+</style>
+</head>
+<body>
+
+<div class="tracker">
+  <div class="tracker-rail"><div class="tracker-fill" id="trackerFill"></div></div>
+  <div class="tracker-nav">
+    <div class="tracker-logo">RE<span>COMP</span></div>
+    <div class="tracker-plates" id="trackerPlates">
+      <span class="plate" data-target="nutrition">01 · FUEL</span>
+      <span class="plate" data-target="isolate">02 · SUPPL</span>
+      <span class="plate" data-target="splits">03 · TRAIN</span>
+    </div>
+    <div class="tracker-links">
+      <a href="#nutrition">Nutrition</a>
+      <a href="#isolate">Whey Isolate</a>
+      <a href="#splits">Splits</a>
+    </div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Body Recomposition Log · Phase 0</div>
+      <h1>Build muscle.<br>Drop fat.<br><span class="accent">Same plate.</span></h1>
+      <p class="lede">No bulk-cut yo-yo. RECOMP is the training and nutrition log for lifters running body recomposition on a vegetarian, high-protein base — tracked, not guessed.</p>
+      <div class="hero-ctas">
+        <a href="#nutrition" class="btn btn-primary">See This Week's Meals →</a>
+        <a href="#splits" class="btn btn-ghost">Browse Splits</a>
+      </div>
+    </div>
+    <div class="hero-readout fade-up">
+      <div class="readout-row">
+        <span class="readout-label">Daily protein target</span>
+        <span class="readout-value lime">1.8 g/kg</span>
+      </div>
+      <div class="readout-row">
+        <span class="readout-label">Avg. meal protein (veg)</span>
+        <span class="readout-value">34 g</span>
+      </div>
+      <div class="readout-row">
+        <span class="readout-label">Isolate leucine / scoop</span>
+        <span class="readout-value lime">2.7 g</span>
+      </div>
+      <div class="readout-row">
+        <span class="readout-label">Recomp training days/wk</span>
+        <span class="readout-value">4–5</span>
+      </div>
+      <div class="readout-row">
+        <span class="readout-label">Surplus tolerance</span>
+        <span class="readout-value iron">±150 kcal</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="nutrition">
+  <div class="wrap">
+    <div class="section-head fade-up">
+      <div>
+        <div class="eyebrow">Phase 01 — Nutrition</div>
+        <h2>High-protein,<br>zero meat.</h2>
+      </div>
+      <p class="desc">Recomp lives or dies on protein hitting your plate, not your shaker. Five meals built around 30g+ each, no animal flesh required.</p>
+    </div>
+
+    <div class="meal-grid fade-up">
+      <div class="meal-card">
+        <span class="meal-tag">Breakfast</span>
+        <h3>Cottage Cheese &amp; Berry Oat Bowl</h3>
+        <p>Cold-soaked oats folded into cottage cheese, topped with frozen berries and a spoon of peanut butter.</p>
+        <div class="meal-macro-row">
+          <div class="macro"><span class="num">32g</span><span class="unit">protein</span></div>
+          <div class="macro"><span class="num">480</span><span class="unit">kcal</span></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <span class="meal-tag">Lunch</span>
+        <h3>Tofu &amp; Tempeh Power Bowl</h3>
+        <p>Pan-seared tofu and tempeh over rice with roasted chickpeas, tahini, and greens.</p>
+        <div class="meal-macro-row">
+          <div class="macro"><span class="num">41g</span><span class="unit">protein</span></div>
+          <div class="macro"><span class="num">610</span><span class="unit">kcal</span></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <span class="meal-tag">Dinner</span>
+        <h3>Paneer &amp; Lentil Dal</h3>
+        <p>Red lentil dal simmered thick, paneer cubes seared on the side, served over basmati.</p>
+        <div class="meal-macro-row">
+          <div class="macro"><span class="num">38g</span><span class="unit">protein</span></div>
+          <div class="macro"><span class="num">560</span><span class="unit">kcal</span></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <span class="meal-tag">Snack</span>
+        <h3>Greek Yogurt Protein Mix</h3>
+        <p>Full-fat Greek yogurt blended with a half-scoop of isolate and cinnamon.</p>
+        <div class="meal-macro-row">
+          <div class="macro"><span class="num">28g</span><span class="unit">protein</span></div>
+          <div class="macro"><span class="num">240</span><span class="unit">kcal</span></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <span class="meal-tag">Pre-Workout</span>
+        <h3>Edamame &amp; Cottage Toast</h3>
+        <p>Steamed edamame with sea salt alongside whole-grain toast and whipped cottage cheese.</p>
+        <div class="meal-macro-row">
+          <div class="macro"><span class="num">26g</span><span class="unit">protein</span></div>
+          <div class="macro"><span class="num">390</span><span class="unit">kcal</span></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <span class="meal-tag">Post-Workout</span>
+        <h3>Isolate &amp; Banana Shake</h3>
+        <p>One scoop whey isolate, frozen banana, oat milk, blended thick.</p>
+        <div class="meal-macro-row">
+          <div class="macro"><span class="num">27g</span><span class="unit">protein</span></div>
+          <div class="macro"><span class="num">260</span><span class="unit">kcal</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="isolate" class="isolate-section">
+  <div class="wrap">
+    <div class="section-head fade-up">
+      <div>
+        <div class="eyebrow">Phase 02 — Supplementation</div>
+        <h2>Why isolate,<br>not concentrate.</h2>
+      </div>
+      <p class="desc">For a vegetarian recomp plate already carrying dairy and legumes, isolate fills the gap without adding lactose load or extra fat.</p>
+    </div>
+
+    <div class="isolate-grid fade-up">
+      <table class="compare-table">
+        <thead>
+          <tr><th>Metric</th><th>Isolate</th><th>Concentrate</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Protein by weight</td><td class="iso">90–95%</td><td class="con">70–80%</td></tr>
+          <tr><td>Lactose content</td><td class="iso">~0–1g</td><td class="con">3–5g</td></tr>
+          <tr><td>Fat per scoop</td><td class="iso">&lt;1g</td><td class="con">1–3g</td></tr>
+          <tr><td>Digestion speed</td><td class="iso">Fast</td><td class="con">Moderate</td></tr>
+          <tr><td>Best timing</td><td class="iso">Post-lift</td><td class="con">Anytime</td></tr>
+          <tr><td>Cost per gram protein</td><td class="iso">Higher</td><td class="con">Lower</td></tr>
+        </tbody>
+      </table>
+
+      <div class="isolate-copy">
+        <h3>The filtration difference, in practice</h3>
+        <p>Whey isolate is filtered further than concentrate, stripping out most of the lactose and fat that ride along in a standard scoop. What's left is closer to pure protein — <strong>useful when your vegetarian meals already lean on dairy</strong> for their own protein load.</p>
+        <p>For body recomposition specifically, isolate's speed of absorption matters more right after training, when amino acids need to reach muscle tissue fast to support the simultaneous build-and-burn the diet is asking the body to do.</p>
+        <p>It's not a requirement — <strong>concentrate works fine across most of the day</strong> — but isolate earns its place in the one or two shakes timed around your lift.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="splits">
+  <div class="wrap">
+    <div class="section-head fade-up">
+      <div>
+        <div class="eyebrow">Phase 03 — Training</div>
+        <h2>Pick your split.</h2>
+      </div>
+      <p class="desc">Recomp needs enough volume per muscle to signal growth, spaced enough to recover in a calorie window that isn't a deep surplus.</p>
+    </div>
+
+    <div class="split-tabs fade-up">
+      <button class="split-tab active" data-split="ul">Upper / Lower</button>
+      <button class="split-tab" data-split="ppl">Push / Pull / Legs</button>
+      <button class="split-tab" data-split="full">Full Body</button>
+    </div>
+
+    <div class="split-panel active" id="ul">
+      <div class="day-card"><span class="d">Mon</span><div class="focus">Upper — Strength</div></div>
+      <div class="day-card"><span class="d">Tue</span><div class="focus">Lower — Strength</div></div>
+      <div class="day-card rest"><span class="d">Wed</span><div class="focus">Rest / Walk</div></div>
+      <div class="day-card"><span class="d">Thu</span><div class="focus">Upper — Volume</div></div>
+      <div class="day-card"><span class="d">Fri</span><div class="focus">Lower — Volume</div></div>
+      <div class="day-card rest"><span class="d">Sat</span><div class="focus">Rest</div></div>
+      <div class="day-card rest"><span class="d">Sun</span><div class="focus">Rest</div></div>
+    </div>
+
+    <div class="split-panel" id="ppl">
+      <div class="day-card"><span class="d">Mon</span><div class="focus">Push</div></div>
+      <div class="day-card"><span class="d">Tue</span><div class="focus">Pull</div></div>
+      <div class="day-card"><span class="d">Wed</span><div class="focus">Legs</div></div>
+      <div class="day-card rest"><span class="d">Thu</span><div class="focus">Rest</div></div>
+      <div class="day-card"><span class="d">Fri</span><div class="focus">Push</div></div>
+      <div class="day-card"><span class="d">Sat</span><div class="focus">Pull</div></div>
+      <div class="day-card"><span class="d">Sun</span><div class="focus">Legs</div></div>
+    </div>
+
+    <div class="split-panel" id="full">
+      <div class="day-card"><span class="d">Mon</span><div class="focus">Full Body A</div></div>
+      <div class="day-card rest"><span class="d">Tue</span><div class="focus">Rest</div></div>
+      <div class="day-card"><span class="d">Wed</span><div class="focus">Full Body B</div></div>
+      <div class="day-card rest"><span class="d">Thu</span><div class="focus">Rest</div></div>
+      <div class="day-card"><span class="d">Fri</span><div class="focus">Full Body C</div></div>
+      <div class="day-card rest"><span class="d">Sat</span><div class="focus">Rest</div></div>
+      <div class="day-card rest"><span class="d">Sun</span><div class="focus">Rest</div></div>
+    </div>
+
+    <p class="split-note fade-up">Upper/lower suits most recomp lifters: enough frequency per muscle group to drive growth, enough rest to recover on a near-maintenance diet. Push/pull/legs adds volume for lifters with a higher calorie ceiling. Full body fits limited days without losing weekly frequency.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-row">
+    <div class="footer-logo">RE<span>COMP</span></div>
+    <p>Training and nutrition log for body recomposition · Not medical advice</p>
+  </div>
+</footer>
+
+<script>
+  // tracker fill = scroll progress
+  const fill = document.getElementById('trackerFill');
+  function updateFill(){
+    const h = document.documentElement;
+    const scrolled = h.scrollTop;
+    const max = h.scrollHeight - h.clientHeight;
+    fill.style.width = (max > 0 ? (scrolled/max)*100 : 0) + '%';
+  }
+  document.addEventListener('scroll', updateFill, {passive:true});
+  updateFill();
+
+  // tracker plates active state via IntersectionObserver
+  const plates = document.querySelectorAll('.plate');
+  const sections = ['nutrition','isolate','splits'].map(id => document.getElementById(id));
+  const plateMap = {nutrition:'nutrition', isolate:'isolate', splits:'splits'};
+
+  plates.forEach(p => p.addEventListener('click', () => {
+    document.getElementById(p.dataset.target).scrollIntoView({behavior:'smooth'});
+  }));
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        plates.forEach(p => p.classList.toggle('active', p.dataset.target === entry.target.id));
+      }
+    });
+  }, {rootMargin:'-40% 0px -55% 0px'});
+  sections.forEach(s => s && obs.observe(s));
+
+  // split tabs
+  const tabs = document.querySelectorAll('.split-tab');
+  const panels = document.querySelectorAll('.split-panel');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.split).classList.add('active');
+    });
+  });
+
+  // fade up on scroll
+  const fadeEls = document.querySelectorAll('.fade-up');
+  const fadeObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+  }, {threshold:0.1});
+  fadeEls.forEach(el => fadeObs.observe(el));
+</script>
+
+</body>
+</html>
