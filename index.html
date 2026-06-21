@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RECOMP — Strength &amp; Body Recomposition</title>
+<title>RECOMP / Strength &amp; Body Recomposition</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 
   :root{
@@ -20,7 +20,7 @@
     --line: rgba(245,243,238,0.12);
 
     --display: 'Archivo Black', 'Arial Black', sans-serif;
-    --body: 'Inter', -apple-system, sans-serif;
+    --body: 'Nunito', -apple-system, sans-serif;
     --mono: 'JetBrains Mono', monospace;
   }
 
@@ -32,7 +32,7 @@
     background:var(--black);
     color:var(--chalk);
     font-family:var(--body);
-    line-height:1.5;
+    line-height:1.55;
     overflow-x:hidden;
   }
 
@@ -316,26 +316,43 @@
     align-items:start;
   }
   .compare-table{
+    display:flex;
+    flex-direction:column;
     width:100%;
-    border-collapse:collapse;
   }
-  .compare-table th, .compare-table td{
-    text-align:left;
-    padding:18px 0;
+  .compare-row{
+    padding:22px 0;
     border-bottom:1px solid var(--line);
-    font-size:14.5px;
   }
-  .compare-table th{
+  .compare-row:first-child{padding-top:0;}
+  .compare-metric{
     font-family:var(--mono);
     font-size:11px;
     text-transform:uppercase;
     letter-spacing:0.06em;
     color:var(--gray);
-    font-weight:500;
+    margin-bottom:14px;
   }
-  .compare-table td.iso{color:var(--lime); font-weight:700; font-family:var(--mono);}
-  .compare-table td.con{color:var(--chalk-dim); font-family:var(--mono);}
-  .compare-table tr td:first-child{color:var(--chalk); font-weight:600;}
+  .compare-values{
+    display:flex;
+    gap:32px;
+  }
+  .compare-value{
+    flex:1;
+  }
+  .compare-value .vlabel{
+    display:block;
+    font-size:11px;
+    color:var(--gray);
+    margin-bottom:6px;
+  }
+  .compare-value .vnum{
+    font-family:var(--mono);
+    font-size:18px;
+    font-weight:700;
+  }
+  .compare-value.iso .vnum{color:var(--lime);}
+  .compare-value.con .vnum{color:var(--chalk-dim);}
 
   .isolate-copy h3{
     font-family:var(--display);
@@ -378,17 +395,20 @@
     border-color:var(--lime);
   }
   .split-panel{display:none;}
-  .split-panel.active{display:grid;}
+  .split-panel.active{display:flex;}
   .split-panel{
-    grid-template-columns:repeat(auto-fit, minmax(150px,1fr));
+    flex-direction:column;
     gap:1px;
     background:var(--line);
     border:1px solid var(--line);
   }
   .day-card{
     background:var(--black);
-    padding:24px 20px;
-    min-height:150px;
+    padding:22px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
   }
   .day-card .d{
     font-family:var(--mono);
@@ -396,15 +416,21 @@
     color:var(--iron);
     text-transform:uppercase;
     letter-spacing:0.06em;
-    margin-bottom:10px;
-    display:block;
+    flex:none;
+    width:60px;
   }
   .day-card .focus{
     font-weight:800;
     font-size:16.5px;
     line-height:1.25;
+    text-align:right;
   }
   .day-card.rest .focus{color:var(--gray);}
+
+  @media (max-width:480px){
+    .day-card{flex-direction:column; align-items:flex-start; gap:8px;}
+    .day-card .focus{text-align:left;}
+  }
 
   .split-note{
     margin-top:28px;
@@ -472,7 +498,7 @@
     <div>
       <div class="eyebrow">Body Recomposition Log · Phase 0</div>
       <h1>Build muscle.<br>Drop fat.<br><span class="accent">Same plate.</span></h1>
-      <p class="lede">No bulk-cut yo-yo. RECOMP is the training and nutrition log for lifters running body recomposition on a vegetarian, high-protein base — tracked, not guessed.</p>
+      <p class="lede">No bulk-cut yo-yo. RECOMP is the training and nutrition log for lifters running body recomposition on a high-protein, plant-and-dairy macro base, tracked, not guessed.</p>
       <div class="hero-ctas">
         <a href="#nutrition" class="btn btn-primary">See This Week's Meals →</a>
         <a href="#splits" class="btn btn-ghost">Browse Splits</a>
@@ -507,10 +533,10 @@
   <div class="wrap">
     <div class="section-head fade-up">
       <div>
-        <div class="eyebrow">Phase 01 — Nutrition</div>
-        <h2>High-protein,<br>zero meat.</h2>
+        <div class="eyebrow">Phase 01 / Nutrition</div>
+        <h2>High-protein<br>meal structure.</h2>
       </div>
-      <p class="desc">Recomp lives or dies on protein hitting your plate, not your shaker. Five meals built around 30g+ each, no animal flesh required.</p>
+      <p class="desc">Recomp is won at the plate. Six meals built on dairy, legumes, and soy proteins, each hitting 25g+ to keep muscle protein synthesis elevated through the day.</p>
     </div>
 
     <div class="meal-grid fade-up">
@@ -576,32 +602,63 @@
   <div class="wrap">
     <div class="section-head fade-up">
       <div>
-        <div class="eyebrow">Phase 02 — Supplementation</div>
-        <h2>Why isolate,<br>not concentrate.</h2>
+        <div class="eyebrow">Phase 02 / Supplementation</div>
+        <h2>Isolate vs.<br>concentrate.</h2>
       </div>
-      <p class="desc">For a vegetarian recomp plate already carrying dairy and legumes, isolate fills the gap without adding lactose load or extra fat.</p>
+      <p class="desc">A meal plan built on dairy and legumes already carries protein volume. Isolate fills the post-training window without added lactose or fat load.</p>
     </div>
 
     <div class="isolate-grid fade-up">
-      <table class="compare-table">
-        <thead>
-          <tr><th>Metric</th><th>Isolate</th><th>Concentrate</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Protein by weight</td><td class="iso">90–95%</td><td class="con">70–80%</td></tr>
-          <tr><td>Lactose content</td><td class="iso">~0–1g</td><td class="con">3–5g</td></tr>
-          <tr><td>Fat per scoop</td><td class="iso">&lt;1g</td><td class="con">1–3g</td></tr>
-          <tr><td>Digestion speed</td><td class="iso">Fast</td><td class="con">Moderate</td></tr>
-          <tr><td>Best timing</td><td class="iso">Post-lift</td><td class="con">Anytime</td></tr>
-          <tr><td>Cost per gram protein</td><td class="iso">Higher</td><td class="con">Lower</td></tr>
-        </tbody>
-      </table>
+      <div class="compare-table">
+        <div class="compare-row">
+          <div class="compare-metric">Protein by weight</div>
+          <div class="compare-values">
+            <div class="compare-value iso"><span class="vlabel">Isolate</span><span class="vnum">90-95%</span></div>
+            <div class="compare-value con"><span class="vlabel">Concentrate</span><span class="vnum">70-80%</span></div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-metric">Lactose content</div>
+          <div class="compare-values">
+            <div class="compare-value iso"><span class="vlabel">Isolate</span><span class="vnum">~0-1g</span></div>
+            <div class="compare-value con"><span class="vlabel">Concentrate</span><span class="vnum">3-5g</span></div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-metric">Fat per scoop</div>
+          <div class="compare-values">
+            <div class="compare-value iso"><span class="vlabel">Isolate</span><span class="vnum">&lt;1g</span></div>
+            <div class="compare-value con"><span class="vlabel">Concentrate</span><span class="vnum">1-3g</span></div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-metric">Digestion speed</div>
+          <div class="compare-values">
+            <div class="compare-value iso"><span class="vlabel">Isolate</span><span class="vnum">Fast</span></div>
+            <div class="compare-value con"><span class="vlabel">Concentrate</span><span class="vnum">Moderate</span></div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-metric">Best timing</div>
+          <div class="compare-values">
+            <div class="compare-value iso"><span class="vlabel">Isolate</span><span class="vnum">Post-lift</span></div>
+            <div class="compare-value con"><span class="vlabel">Concentrate</span><span class="vnum">Anytime</span></div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-metric">Cost per gram protein</div>
+          <div class="compare-values">
+            <div class="compare-value iso"><span class="vlabel">Isolate</span><span class="vnum">Higher</span></div>
+            <div class="compare-value con"><span class="vlabel">Concentrate</span><span class="vnum">Lower</span></div>
+          </div>
+        </div>
+      </div>
 
       <div class="isolate-copy">
         <h3>The filtration difference, in practice</h3>
-        <p>Whey isolate is filtered further than concentrate, stripping out most of the lactose and fat that ride along in a standard scoop. What's left is closer to pure protein — <strong>useful when your vegetarian meals already lean on dairy</strong> for their own protein load.</p>
-        <p>For body recomposition specifically, isolate's speed of absorption matters more right after training, when amino acids need to reach muscle tissue fast to support the simultaneous build-and-burn the diet is asking the body to do.</p>
-        <p>It's not a requirement — <strong>concentrate works fine across most of the day</strong> — but isolate earns its place in the one or two shakes timed around your lift.</p>
+        <p>Whey isolate goes through additional filtration versus concentrate, stripping out most of the lactose and fat that ride along in a standard scoop. What's left is closer to pure protein, <strong>useful when daily meals already lean on dairy</strong> for their protein load.</p>
+        <p>For body recomposition specifically, isolate's faster absorption matters most in the post-training window, when amino acids need to reach muscle tissue quickly to support recovery while training in a tighter calorie range.</p>
+        <p>It's not mandatory <strong>concentrate performs fine across most of the day</strong>, but isolate earns its place in the shake timed around training.</p>
       </div>
     </div>
   </div>
@@ -611,7 +668,7 @@
   <div class="wrap">
     <div class="section-head fade-up">
       <div>
-        <div class="eyebrow">Phase 03 — Training</div>
+        <div class="eyebrow">Phase 03 / Training</div>
         <h2>Pick your split.</h2>
       </div>
       <p class="desc">Recomp needs enough volume per muscle to signal growth, spaced enough to recover in a calorie window that isn't a deep surplus.</p>
@@ -624,11 +681,11 @@
     </div>
 
     <div class="split-panel active" id="ul">
-      <div class="day-card"><span class="d">Mon</span><div class="focus">Upper — Strength</div></div>
-      <div class="day-card"><span class="d">Tue</span><div class="focus">Lower — Strength</div></div>
+      <div class="day-card"><span class="d">Mon</span><div class="focus">Upper / Strength</div></div>
+      <div class="day-card"><span class="d">Tue</span><div class="focus">Lower / Strength</div></div>
       <div class="day-card rest"><span class="d">Wed</span><div class="focus">Rest / Walk</div></div>
-      <div class="day-card"><span class="d">Thu</span><div class="focus">Upper — Volume</div></div>
-      <div class="day-card"><span class="d">Fri</span><div class="focus">Lower — Volume</div></div>
+      <div class="day-card"><span class="d">Thu</span><div class="focus">Upper / Hypertrophy</div></div>
+      <div class="day-card"><span class="d">Fri</span><div class="focus">Lower / Hypertrophy</div></div>
       <div class="day-card rest"><span class="d">Sat</span><div class="focus">Rest</div></div>
       <div class="day-card rest"><span class="d">Sun</span><div class="focus">Rest</div></div>
     </div>
@@ -653,7 +710,7 @@
       <div class="day-card rest"><span class="d">Sun</span><div class="focus">Rest</div></div>
     </div>
 
-    <p class="split-note fade-up">Upper/lower suits most recomp lifters: enough frequency per muscle group to drive growth, enough rest to recover on a near-maintenance diet. Push/pull/legs adds volume for lifters with a higher calorie ceiling. Full body fits limited days without losing weekly frequency.</p>
+    <p class="split-note fade-up">Upper/lower suits most recomp lifters: enough training frequency per muscle group to drive hypertrophy, enough recovery to perform in a tighter calorie range. Push/pull/legs adds volume for lifters with a higher calorie ceiling. Full body fits limited training days without losing weekly frequency.</p>
   </div>
 </section>
 
